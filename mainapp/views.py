@@ -78,3 +78,13 @@ def school_delete_view(request, _id):
 def get_student_view(request, _id):
     student = Student.objects.get(id=_id)
     return render(request, "submitted.html")
+
+
+def student_list(request):
+    Student_list = Student.objects.all()
+    return render(request, 'student_list.html', {'Student_list': Student_list})
+
+
+def school_list(request):
+    School_list = School.objects.all()
+    return render(request, 'school_list.html', {'school_list': School_list})
