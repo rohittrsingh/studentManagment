@@ -33,20 +33,22 @@ def student_register_view(request):
 ################################################## EDIT ########################################
 
 def school_edit_view(request, _id):
+    try:
+        school = School.objects.get(pk=_id)
+    except School.DoesNotExist:
+        return render(request, "404.html")
+
     if request.method == "POST":
-        school_form = SchoolForm(request.POST)
+        school_form = SchoolForm(request.POST, instance=school)
         if school_form.is_valid():
             school_form.save()
             return render(request, "submitted.html")
         else:
             return render(request, "error.html")
     else:
-        try:
-            school = School.objects.get(pk=_id)
-            form = SchoolForm(instance=school)
-            return render(request, "create_school.html", {"form": form})
-        except School.DoesNotExist:
-            return render(request, "404.html")
+        form = SchoolForm(instance=school)
+        return render(request, "create_school.html", {"form": form})
+
     # school = get_object_or_404(School, id=_id)
     #
     # if request.method == 'GET':
